@@ -1,9 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import './App.css'
+import ConnectedAppBar from './components/connected/ConnectedAppBar';
 
 const App = () => {
   return (
-    <Outlet />
+    <>
+      <ConnectedAppBar />
+      <Outlet />
+    </>
   );
 };
 
