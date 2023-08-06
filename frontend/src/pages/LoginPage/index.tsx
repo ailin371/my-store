@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -7,15 +6,6 @@ import Container from '@mui/material/Container';
 import LoginForm from '../../forms/LoginForm';
 
 const LoginPage = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
-
     return (
         <Container component="main" maxWidth="xs">
             <Box
@@ -32,7 +22,7 @@ const LoginPage = () => {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <LoginForm onSubmit={handleSubmit} sx={{ mt: 1 }} />
+                <LoginForm sx={{ mt: 1 }} />
             </Box>
         </Container>
     );

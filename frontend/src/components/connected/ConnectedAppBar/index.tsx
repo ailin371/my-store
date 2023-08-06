@@ -12,20 +12,57 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import { useAppSelector } from '../../../app/store';
+import { useAppDispatch, useAppSelector } from '../../../app/store';
 import { selectUser } from '../../../app/features/user/userSelectors';
+import { useLogoutUserMutation } from '../../../app/api';
+import { useNavigate } from 'react-router-dom';
+import { clearUser } from '../../../app/features/user/userSlice';
+import { useMemo } from 'react';
 
+interface SettingsItem {
+    label: string,
+    onClick?: VoidFunction,
+}
 
 const pages = ['Products'];
-const settings = ['Profile', 'Account', 'Cart', 'Logout'];
 
 const ConnectedAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+    const [logoutUser] = useLogoutUserMutation();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const settings: SettingsItem[] = useMemo(() => [
+        {
+            label: 'Profile',
+        },
+        {
+            label: 'Account',
+        },
+        {
+            label: 'Cart',
+        },
+        {
+            label: 'Logout',
+            onClick: async () => {
+                try {
+                    await logoutUser({}).unwrap();
+                    dispatch(clearUser());
+                    navigate('login');
+                }
+                catch {
+                    console.log("Logout failed!");
+                }
+            }
+        }
+    ], [logoutUser, dispatch, navigate]);
+
     const { email, firstName, lastName } = useAppSelector(selectUser);
     const isLoggedIn = email !== "";
-    const fullName = `${firstName} ${lastName}`
+    console.log(email)
+    const fullName = `${firstName} ${lastName}`;
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -144,7 +181,7 @@ const ConnectedAppBar = () => {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={fullName} src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt={fullName} src="" /> {/** wire src to profile image */}
                                 </IconButton>
                             </Tooltip>
                             <Menu
@@ -164,8 +201,8 @@ const ConnectedAppBar = () => {
                                 onClose={handleCloseUserMenu}
                             >
                                 {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                    <MenuItem key={setting.label} onClick={setting.onClick}>
+                                        <Typography textAlign="center">{setting.label}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
