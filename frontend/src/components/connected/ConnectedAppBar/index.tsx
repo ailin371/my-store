@@ -48,6 +48,8 @@ const ConnectedAppBar = () => {
             label: 'Logout',
             onClick: async () => {
                 try {
+                    handleCloseNavMenu();
+                    handleCloseUserMenu();
                     await logoutUser({}).unwrap();
                     dispatch(clearUser());
                     navigate('login');
