@@ -34,6 +34,10 @@ const ProductPage: React.FC = () => {
 
     const isProductInStock = product.stock > 0;
 
+    // Generate the array of selectable quantities based on the available stock
+    const maxQuantity = Math.min(product.stock, 5);
+    const selectableQuantities = Array.from({ length: maxQuantity }, (_, i) => i + 1);
+
     const handleAddToCart = () => {
         // TODO: Handle add to cart
     };
@@ -69,7 +73,7 @@ const ProductPage: React.FC = () => {
                         variant="outlined"
                         disabled={!isProductInStock}
                     >
-                        {[1, 2, 3, 4, 5].map(num => (
+                        {selectableQuantities.map(num => (
                             <MenuItem key={num} value={num}>{num}</MenuItem>
                         ))}
                     </Select>
