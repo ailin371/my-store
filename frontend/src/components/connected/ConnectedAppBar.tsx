@@ -12,11 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import { useAppDispatch, useAppSelector } from '../../../app/store';
-import { selectUser } from '../../../app/features/user/userSelectors';
-import { useLogoutUserMutation } from '../../../app/api';
+import { useAppDispatch, useAppSelector } from '../../app/store';
+import { selectUser } from '../../app/features/user/userSelectors';
+import { useLogoutUserMutation } from '../../app/api';
 import { useNavigate } from 'react-router-dom';
-import { clearUser } from '../../../app/features/user/userSlice';
+import { clearUser } from '../../app/features/user/userSlice';
 import { useMemo } from 'react';
 
 interface SettingsItem {

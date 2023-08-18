@@ -1,0 +1,8 @@
+export default interface Review {
+    id: number;
+    productId: number;
+    userId: number;
+    rating: number;
+    comment: string;
+    createdAt: Date;
+}

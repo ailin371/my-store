@@ -1,4 +1,4 @@
-interface Product {
+export default interface Product {
     id: number;                // Unique identifier for the product
     name: string;              // Name of the product
     description: string;       // Product description
@@ -9,5 +9,3 @@ interface Product {
     createdAt?: Date;          // Date when the product was added (optional)
     updatedAt?: Date;          // Date when the product was last updated (optional)
 }
-
-export default Product;

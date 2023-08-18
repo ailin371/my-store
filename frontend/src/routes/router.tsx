@@ -3,6 +3,8 @@ import App from "../App";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import ProductsPage from "../pages/ProductsPage";
+import ProductPage from "../pages/ProductPage";
+import NotFound404Page from "../pages/NotFound404Page";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
                 path: "products",
                 element: <ProductsPage />,
             },
+            {
+                path: "product/:productId",
+                element: <ProductPage />,
+            },
+            {
+                path: "*",
+                element: <NotFound404Page />,
+            }
         ]
     },
 ]);

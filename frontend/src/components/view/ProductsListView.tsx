@@ -1,18 +1,18 @@
-// components/ProductListView.tsx
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
 import Product from '../../models/Product';
 
 interface ProductListViewProps {
-    products: Product[];
+    products: Product[],
+    onProductClick: (product: Product) => void,
 }
 
-const ProductListView: React.FC<ProductListViewProps> = ({ products }) => {
+const ProductListView: React.FC<ProductListViewProps> = ({ products, onProductClick }) => {
     return (
         <Grid container spacing={3}>
-            {products.map(product => (
+            {products.map((product) => (
                 <Grid item xs={12} sm={6} md={4} key={product.id}>
-                    <Card>
+                    <Card onClick={() => onProductClick(product)} sx={{ cursor: 'pointer' }}>
                         <CardMedia
                             component="img"
                             height="140"
