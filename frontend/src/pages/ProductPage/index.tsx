@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Typography, Grid, Select, MenuItem, Rating, TextField, SxProps, FormControl, InputLabel, Divider } from '@mui/material';
+import { Button, Typography, Grid, Select, MenuItem, Rating, TextField, SxProps, FormControl, InputLabel, Divider, Box } from '@mui/material';
 import Product from '../../models/Product';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MOCK_PRODUCTS } from '../../mock/mockProducts';
@@ -43,60 +43,73 @@ const ProductPage: React.FC = () => {
     };
 
     return (
-        <Grid container spacing={3} sx={{ p: 2 }}>
-            <Grid item xs={12} sm={6} container>
-                <img src={product.imageUrl} alt={product.name} style={{ width: '100%' }} />
-            </Grid>
-            <Grid item xs={12} sm={6} container direction="column">
-                <Typography variant="h4">{product.name}</Typography>
-                <Typography variant="h6">${product.price.toFixed(2)}</Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>{product.description}</Typography>
+        <Box sx={{ p: 2 }}>
+            <Grid container sx={{ rowGap: 2 }}>
+                <Grid item container sx={{ columnGap: 2, justifyContent: 'center', alignItems: 'center' }}>
+                    <Grid item xs={12} sm={4}>
+                        <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%' }} />
+                    </Grid>
+                    <Grid item xs={12} sm={'auto'}>
+                        <Typography variant="h4">{product.name}</Typography>
+                        <Typography variant="h6">${product.price.toFixed(2)}</Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>{product.description}</Typography>
 
-                {isProductInStock ? (
-                    <Typography variant="body2" sx={{ color: 'green' }}>
-                        In Stock
-                    </Typography>
-                ) : (
-                    <Typography variant="body2" sx={{ color: 'red' }}>
-                        Out of Stock
-                    </Typography>
-                )}
+                        {isProductInStock ? (
+                            <Typography variant="body2" sx={{ color: 'green' }}>
+                                In Stock
+                            </Typography>
+                        ) : (
+                            <Typography variant="body2" sx={{ color: 'red' }}>
+                                Out of Stock
+                            </Typography>
+                        )}
 
-                <FormControl variant="outlined" fullWidth sx={{ mt: 1 }}>
-                    <InputLabel id="quantity-label" htmlFor="outlined-quantity">Quantity</InputLabel>
-                    <Select
-                        labelId="quantity-label"
-                        id="outlined-quantity"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value as number)}
-                        label="Quantity"
-                        variant="outlined"
-                        disabled={!isProductInStock}
-                    >
-                        {selectableQuantities.map(num => (
-                            <MenuItem key={num} value={num}>{num}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                        <Grid container sx={{ mt: 1, gap: 1 }}>
+                            <Grid item xs={12} sm={'auto'}>
+                                <FormControl variant="outlined" sx={{ minWidth: 70 }}>
+                                    <InputLabel id="quantity-label" htmlFor="outlined-quantity">Quantity</InputLabel>
+                                    <Select
+                                        labelId="quantity-label"
+                                        id="outlined-quantity"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(e.target.value as number)}
+                                        label="Quantity"
+                                        variant="outlined"
+                                        disabled={!isProductInStock}
+                                    >
+                                        {selectableQuantities.map(num => (
+                                            <MenuItem key={num} value={num}>{num}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
 
-                <Button variant="contained" onClick={handleAddToCart} disabled={!isProductInStock} sx={{ mt: 1 }}>
-                    Add to Cart
-                </Button>
-            </Grid>
+                            <Grid item xs={12} sm={'auto'}>
+                                <Button variant="contained" onClick={handleAddToCart} disabled={!isProductInStock} sx={{ height: '100%', width: '100%' }}>
+                                    Add to Cart
+                                </Button>
+                            </Grid>
+                        </Grid>
 
-            <Grid item xs={12}>
-                <Divider />
-            </Grid>
+                    </Grid>
+                </Grid>
 
-            <Grid item xs={12} sm={6} container>
-                <ConnectedUserReviews
-                    productId={Number(productId)}
-                    hasPurchasedProduct={hasPurchasedProduct}
-                    initialReviews={reviews}
-                    sx={{ width: '100%' }}
-                />
-            </Grid>
-        </Grid>
+                <Grid item xs={12}>
+                    <Divider />
+                </Grid>
+
+                <Grid item container sx={{ justifyContent: 'center' }}>
+                    <Grid item xs={12} sm={6}>
+                        <ConnectedUserReviews
+                            productId={Number(productId)}
+                            hasPurchasedProduct={hasPurchasedProduct}
+                            initialReviews={reviews}
+                            sx={{ width: '100%' }}
+                        />
+                    </Grid>
+                </Grid>
+            </Grid >
+        </Box>
     );
 };
 
