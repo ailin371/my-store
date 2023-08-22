@@ -1,3 +1,5 @@
+import Review from "../models/Review";
+
 export type ResponseStatus = "success" | "error";
 
 export interface ApiResponse<T> {
@@ -46,4 +48,8 @@ export interface ProductResponse {
     stock: number;
     createdAt?: string;
     updatedAt?: string;
+    averageRating: string,
 }
+
+export type AddReviewRequest = Omit<Review, 'id' | 'createdAt'>;
+export type UpdateReviewRequest = Omit<Review, 'createdAt'>;

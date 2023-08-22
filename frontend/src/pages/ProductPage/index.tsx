@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Divider, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Divider, Box, Rating } from '@mui/material';
 import Product from '../../models/Product';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MOCK_PRODUCTS } from '../../mock/mockProducts';
 import SpinnerWithBackdrop from '../../components/view/SpinnerWithBackdrop';
 import ConnectedUserReviews from '../../components/connected/ConnectedUserReviews';
-import Review from '../../models/Review';
 import { useLazyGetProductQuery } from '../../app/api';
 
 
@@ -15,13 +13,6 @@ const ProductPage: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-    const reviews: Review[] = []; // TODO: wire to real data
-
-    const hasPurchasedProduct = useMemo(() => {
-        if (!product) return false;
-
-        return MOCK_PRODUCTS.some(mockProduct => mockProduct.id.toString() === productId);
-    }, [productId, product]);
 
     useEffect(() => {
         if (!productId) return navigate('/page-not-found');
@@ -33,7 +24,7 @@ const ProductPage: React.FC = () => {
 
     }, [productId, navigate]);
 
-    if (!product) return <SpinnerWithBackdrop open={true} />;
+    if (!productId || !product) return <SpinnerWithBackdrop open={true} />;
 
     const isProductInStock = product.stock > 0;
 
@@ -45,6 +36,8 @@ const ProductPage: React.FC = () => {
         // TODO: Handle add to cart
     };
 
+    console.log(product)
+
     return (
         <Box sx={{ p: 2 }}>
             <Grid container sx={{ rowGap: 2 }}>
@@ -55,7 +48,8 @@ const ProductPage: React.FC = () => {
                     <Grid item xs={12} sm={'auto'}>
                         <Typography variant="h4">{product.name}</Typography>
                         <Typography variant="h6">${product.price.toFixed(2)}</Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>{product.description}</Typography>
+                        <Typography variant="body1">{product.description}</Typography>
+                        <Rating value={product.averageRating} readOnly sx={{ mb: 2 }} />
 
                         {isProductInStock ? (
                             <Typography variant="body2" sx={{ color: 'green' }}>
@@ -105,8 +99,6 @@ const ProductPage: React.FC = () => {
                     <Grid item xs={12} sm={6}>
                         <ConnectedUserReviews
                             productId={Number(productId)}
-                            hasPurchasedProduct={hasPurchasedProduct}
-                            initialReviews={reviews}
                             sx={{ width: '100%' }}
                         />
                     </Grid>

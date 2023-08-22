@@ -8,4 +8,5 @@ export default interface Product {
     stock: number;             // Number of items in stock
     createdAt?: string;        // Date when the product was added (optional)
     updatedAt?: string;        // Date when the product was last updated (optional)
+    averageRating: number,     // The average rating of the product
 }

@@ -1,53 +1,71 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Typography, Rating, TextField, Box, SxProps, Divider } from '@mui/material';
-import Review from '../../models/Review';
 import { useAppSelector } from '../../app/store';
 import { selectUser } from '../../app/features/user/userSelectors';
+import { useAddReviewMutation, useGetProductReviewsQuery, useUpdateReviewMutation } from '../../app/api';
+import { AddReviewRequest } from '../../app/models';
 
 interface UserReviewsProps {
     productId: number;
-    hasPurchasedProduct: boolean;
-    initialReviews: Review[];
     sx?: SxProps;
 }
 
-const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, hasPurchasedProduct, initialReviews, sx }) => {
+const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => {
+    const { data: productReviews = [] } = useGetProductReviewsQuery({ productId });
+    const [addReview] = useAddReviewMutation();
+    const [updatedReview] = useUpdateReviewMutation();
+    console.log(productReviews)
+
     const user = useAppSelector(selectUser);
 
     const sortedReviews = useMemo(() => {
-        return [...initialReviews].sort((a, b) => {
+        return [...productReviews].sort((a, b) => {
             if (a.userId === user.userId) return -1;
             if (b.userId === user.userId) return 1;
             return 0;
         });
-    }, [initialReviews, user.userId]);
+    }, [productReviews, user.userId]);
 
-    const [reviews, setReviews] = useState<Review[]>(sortedReviews);
-
-    const userReview = useMemo(() => reviews.find(review => review.userId === user.userId), [reviews, user.userId]);
+    const hasPurchasedProduct = useMemo(() => {
+        return sortedReviews.some(review => review.userId === user.userId);
+    }, [sortedReviews, user]);
+    const userReview = useMemo(() => sortedReviews.find(review => review.userId === user.userId), [sortedReviews, user.userId]);
     const [rating, setRating] = useState<number | null>(userReview?.rating || 4);
     const [comment, setComment] = useState<string>(userReview?.comment || '');
 
     const handleAddOrUpdateReview = () => {
         if (rating && comment) {
-            const newReview: Review = {
-                id: userReview?.id || Date.now(), // TODO: ID should be generated in backend
+            const newReview: AddReviewRequest = {
                 productId: productId,
                 userId: user.userId,
                 rating: rating,
                 comment: comment,
-                createdAt: userReview?.createdAt || new Date() // TODO: Date should be generated in backend
             };
 
-            // TODO: save to backend
-            setReviews(prev => {
-                const updatedReviews = [newReview, ...prev.filter(review => review.userId !== user.userId)];
-                return updatedReviews.sort((a, b) => {
-                    if (a.userId === user.userId) return -1;
-                    if (b.userId === user.userId) return 1;
-                    return 0;
-                });
-            });
+            // if the user already has a review - update it, otherwise - create it
+            if (userReview) {
+                updatedReview({
+                    id: userReview.id,
+                    ...newReview
+                })
+                    .unwrap()
+                    .then(response => {
+                        console.log('Success!', response);
+                    })
+                    .catch((error) => {
+                        console.log('Error!', error);
+                    });
+            }
+            else {
+                addReview(newReview)
+                    .unwrap()
+                    .then(response => {
+                        console.log('Success!', response);
+                    })
+                    .catch((error) => {
+                        console.log('Error!', error);
+                    });
+            }
         }
     };
 
@@ -76,17 +94,18 @@ const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, hasPurcha
                     </Button>
                 </div>
             )}
-            <Divider sx={{ my: 2 }} />
+            {sortedReviews.length > 0 && <Divider sx={{ my: 2 }} />}
             <Typography variant="h5" gutterBottom>
                 Reviews
             </Typography>
-            {reviews.map(review => (
+            {sortedReviews.map(review => (
                 <div key={review.id}>
                     <Rating value={review.rating} readOnly />
                     <Typography variant="body2">{review.comment}</Typography>
                     <hr />
                 </div>
             ))}
+            {sortedReviews.length === 0 && <Typography>No reviews yet...</Typography>}
         </Box>
     );
 };

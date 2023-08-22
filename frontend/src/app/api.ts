@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { UserRegistrationResponse, UserRegistrationRequest, UserLoginRequest, UserLoginOriginalResponse, UserLoginResponse, ProductResponse } from './models';
+import { UserRegistrationResponse, UserRegistrationRequest, UserLoginRequest, UserLoginOriginalResponse, UserLoginResponse, ProductResponse, AddReviewRequest, UpdateReviewRequest } from './models';
 import Product from '../models/Product';
 import { convertToProduct } from '../utils/converters/convertToProduct';
+import Review from '../models/Review';
 
 
 const api = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api' }),
+    tagTypes: ['reviews'],
     endpoints: (builder) => ({
         registerUser: builder.mutation<UserRegistrationResponse, Partial<UserRegistrationRequest>>({
             query: (newUser) => ({
@@ -53,11 +55,50 @@ const api = createApi({
             }),
             transformResponse: convertToProduct,
         }),
+        getProductReviews: builder.query<Review[], { productId: number }>({
+            query: ({ productId }) => ({
+                url: '/reviews',
+                method: 'GET',
+                params: {
+                    product_id: productId
+                }
+            }),
+        }),
+        getReview: builder.query<Review, { id: number }>({
+            query: ({ id }) => ({
+                url: `/reviews/${id}/`,
+                method: 'GET',
+            }),
+        }),
+        addReview: builder.mutation<Review, AddReviewRequest>({
+            query: (review) => ({
+                url: '/reviews/',
+                method: 'POST',
+                body: review,
+            }),
+            invalidatesTags: ['reviews'],
+        }),
+        updateReview: builder.mutation<Review, UpdateReviewRequest>({
+            query: ({ id, ...review }) => ({
+                url: `/reviews/${id}/`,
+                method: 'PUT',
+                body: review,
+            }),
+            invalidatesTags: ['reviews'],
+        }),
+        deleteReview: builder.mutation<{ success: boolean }, { id: number }>({
+            query: ({ id }) => ({
+                url: `/reviews/${id}/`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['reviews'],
+        }),
     }),
 });
 
 export const {
     useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation,
     useGetProductsQuery, useGetProductQuery, useLazyGetProductQuery,
+    useGetProductReviewsQuery, useLazyGetProductReviewsQuery, useAddReviewMutation, useUpdateReviewMutation,
 } = api;
 export default api;

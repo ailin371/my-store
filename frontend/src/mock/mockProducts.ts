@@ -10,7 +10,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 20,
         "createdAt": "2023-01-01T00:00:00.000Z",
-        "updatedAt": "2023-01-10T00:00:00.000Z"
+        "updatedAt": "2023-01-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 2,
@@ -21,7 +22,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 30,
         "createdAt": "2023-01-05T00:00:00.000Z",
-        "updatedAt": "2023-01-15T00:00:00.000Z"
+        "updatedAt": "2023-01-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 3,
@@ -32,7 +34,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 100,
         "createdAt": "2023-02-01T00:00:00.000Z",
-        "updatedAt": "2023-02-10T00:00:00.000Z"
+        "updatedAt": "2023-02-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 4,
@@ -43,7 +46,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 50,
         "createdAt": "2023-02-05T00:00:00.000Z",
-        "updatedAt": "2023-02-15T00:00:00.000Z"
+        "updatedAt": "2023-02-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 5,
@@ -54,7 +58,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Wearables",
         "stock": 40,
         "createdAt": "2023-02-07T00:00:00.000Z",
-        "updatedAt": "2023-02-17T00:00:00.000Z"
+        "updatedAt": "2023-02-17T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 6,
@@ -65,7 +70,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Gaming",
         "stock": 150,
         "createdAt": "2023-03-01T00:00:00.000Z",
-        "updatedAt": "2023-03-11T00:00:00.000Z"
+        "updatedAt": "2023-03-11T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 7,
@@ -76,7 +82,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Home",
         "stock": 120,
         "createdAt": "2023-03-05T00:00:00.000Z",
-        "updatedAt": "2023-03-15T00:00:00.000Z"
+        "updatedAt": "2023-03-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 8,
@@ -87,7 +94,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Kitchen Appliances",
         "stock": 80,
         "createdAt": "2023-03-10T00:00:00.000Z",
-        "updatedAt": "2023-03-20T00:00:00.000Z"
+        "updatedAt": "2023-03-20T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 9,
@@ -98,7 +106,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Footwear",
         "stock": 60,
         "createdAt": "2023-04-01T00:00:00.000Z",
-        "updatedAt": "2023-04-10T00:00:00.000Z"
+        "updatedAt": "2023-04-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 10,
@@ -109,7 +118,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Accessories",
         "stock": 90,
         "createdAt": "2023-04-05T00:00:00.000Z",
-        "updatedAt": "2023-04-15T00:00:00.000Z"
+        "updatedAt": "2023-04-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 11,
@@ -120,7 +130,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 20,
         "createdAt": "2023-01-01T00:00:00.000Z",
-        "updatedAt": "2023-01-10T00:00:00.000Z"
+        "updatedAt": "2023-01-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 12,
@@ -131,7 +142,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 30,
         "createdAt": "2023-01-05T00:00:00.000Z",
-        "updatedAt": "2023-01-15T00:00:00.000Z"
+        "updatedAt": "2023-01-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 13,
@@ -142,7 +154,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 100,
         "createdAt": "2023-02-01T00:00:00.000Z",
-        "updatedAt": "2023-02-10T00:00:00.000Z"
+        "updatedAt": "2023-02-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 14,
@@ -153,7 +166,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 50,
         "createdAt": "2023-02-05T00:00:00.000Z",
-        "updatedAt": "2023-02-15T00:00:00.000Z"
+        "updatedAt": "2023-02-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 15,
@@ -164,7 +178,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Wearables",
         "stock": 40,
         "createdAt": "2023-02-07T00:00:00.000Z",
-        "updatedAt": "2023-02-17T00:00:00.000Z"
+        "updatedAt": "2023-02-17T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 16,
@@ -175,7 +190,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Gaming",
         "stock": 150,
         "createdAt": "2023-03-01T00:00:00.000Z",
-        "updatedAt": "2023-03-11T00:00:00.000Z"
+        "updatedAt": "2023-03-11T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 17,
@@ -186,7 +202,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Home",
         "stock": 120,
         "createdAt": "2023-03-05T00:00:00.000Z",
-        "updatedAt": "2023-03-15T00:00:00.000Z"
+        "updatedAt": "2023-03-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 18,
@@ -197,7 +214,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Kitchen Appliances",
         "stock": 80,
         "createdAt": "2023-03-10T00:00:00.000Z",
-        "updatedAt": "2023-03-20T00:00:00.000Z"
+        "updatedAt": "2023-03-20T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 19,
@@ -208,7 +226,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Footwear",
         "stock": 60,
         "createdAt": "2023-04-01T00:00:00.000Z",
-        "updatedAt": "2023-04-10T00:00:00.000Z"
+        "updatedAt": "2023-04-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 20,
@@ -219,7 +238,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Accessories",
         "stock": 90,
         "createdAt": "2023-04-05T00:00:00.000Z",
-        "updatedAt": "2023-04-15T00:00:00.000Z"
+        "updatedAt": "2023-04-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 21,
@@ -230,7 +250,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 20,
         "createdAt": "2023-01-01T00:00:00.000Z",
-        "updatedAt": "2023-01-10T00:00:00.000Z"
+        "updatedAt": "2023-01-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 22,
@@ -241,7 +262,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 30,
         "createdAt": "2023-01-05T00:00:00.000Z",
-        "updatedAt": "2023-01-15T00:00:00.000Z"
+        "updatedAt": "2023-01-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 23,
@@ -252,7 +274,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 100,
         "createdAt": "2023-02-01T00:00:00.000Z",
-        "updatedAt": "2023-02-10T00:00:00.000Z"
+        "updatedAt": "2023-02-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 24,
@@ -263,7 +286,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 50,
         "createdAt": "2023-02-05T00:00:00.000Z",
-        "updatedAt": "2023-02-15T00:00:00.000Z"
+        "updatedAt": "2023-02-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 25,
@@ -274,7 +298,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Wearables",
         "stock": 40,
         "createdAt": "2023-02-07T00:00:00.000Z",
-        "updatedAt": "2023-02-17T00:00:00.000Z"
+        "updatedAt": "2023-02-17T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 26,
@@ -285,7 +310,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Gaming",
         "stock": 150,
         "createdAt": "2023-03-01T00:00:00.000Z",
-        "updatedAt": "2023-03-11T00:00:00.000Z"
+        "updatedAt": "2023-03-11T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 27,
@@ -296,7 +322,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Home",
         "stock": 120,
         "createdAt": "2023-03-05T00:00:00.000Z",
-        "updatedAt": "2023-03-15T00:00:00.000Z"
+        "updatedAt": "2023-03-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 28,
@@ -307,7 +334,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Kitchen Appliances",
         "stock": 80,
         "createdAt": "2023-03-10T00:00:00.000Z",
-        "updatedAt": "2023-03-20T00:00:00.000Z"
+        "updatedAt": "2023-03-20T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 29,
@@ -318,7 +346,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Footwear",
         "stock": 60,
         "createdAt": "2023-04-01T00:00:00.000Z",
-        "updatedAt": "2023-04-10T00:00:00.000Z"
+        "updatedAt": "2023-04-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 30,
@@ -329,7 +358,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Accessories",
         "stock": 90,
         "createdAt": "2023-04-05T00:00:00.000Z",
-        "updatedAt": "2023-04-15T00:00:00.000Z"
+        "updatedAt": "2023-04-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 31,
@@ -340,7 +370,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 20,
         "createdAt": "2023-01-01T00:00:00.000Z",
-        "updatedAt": "2023-01-10T00:00:00.000Z"
+        "updatedAt": "2023-01-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 32,
@@ -351,7 +382,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 30,
         "createdAt": "2023-01-05T00:00:00.000Z",
-        "updatedAt": "2023-01-15T00:00:00.000Z"
+        "updatedAt": "2023-01-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 33,
@@ -362,7 +394,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 100,
         "createdAt": "2023-02-01T00:00:00.000Z",
-        "updatedAt": "2023-02-10T00:00:00.000Z"
+        "updatedAt": "2023-02-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 34,
@@ -373,7 +406,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 50,
         "createdAt": "2023-02-05T00:00:00.000Z",
-        "updatedAt": "2023-02-15T00:00:00.000Z"
+        "updatedAt": "2023-02-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 35,
@@ -384,7 +418,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Wearables",
         "stock": 40,
         "createdAt": "2023-02-07T00:00:00.000Z",
-        "updatedAt": "2023-02-17T00:00:00.000Z"
+        "updatedAt": "2023-02-17T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 36,
@@ -395,7 +430,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Gaming",
         "stock": 150,
         "createdAt": "2023-03-01T00:00:00.000Z",
-        "updatedAt": "2023-03-11T00:00:00.000Z"
+        "updatedAt": "2023-03-11T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 37,
@@ -406,7 +442,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Home",
         "stock": 120,
         "createdAt": "2023-03-05T00:00:00.000Z",
-        "updatedAt": "2023-03-15T00:00:00.000Z"
+        "updatedAt": "2023-03-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 38,
@@ -417,7 +454,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Kitchen Appliances",
         "stock": 80,
         "createdAt": "2023-03-10T00:00:00.000Z",
-        "updatedAt": "2023-03-20T00:00:00.000Z"
+        "updatedAt": "2023-03-20T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 39,
@@ -428,7 +466,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Footwear",
         "stock": 60,
         "createdAt": "2023-04-01T00:00:00.000Z",
-        "updatedAt": "2023-04-10T00:00:00.000Z"
+        "updatedAt": "2023-04-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 40,
@@ -439,7 +478,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Accessories",
         "stock": 90,
         "createdAt": "2023-04-05T00:00:00.000Z",
-        "updatedAt": "2023-04-15T00:00:00.000Z"
+        "updatedAt": "2023-04-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 41,
@@ -450,7 +490,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 20,
         "createdAt": "2023-01-01T00:00:00.000Z",
-        "updatedAt": "2023-01-10T00:00:00.000Z"
+        "updatedAt": "2023-01-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 42,
@@ -461,7 +502,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 30,
         "createdAt": "2023-01-05T00:00:00.000Z",
-        "updatedAt": "2023-01-15T00:00:00.000Z"
+        "updatedAt": "2023-01-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 43,
@@ -472,7 +514,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 100,
         "createdAt": "2023-02-01T00:00:00.000Z",
-        "updatedAt": "2023-02-10T00:00:00.000Z"
+        "updatedAt": "2023-02-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 44,
@@ -483,7 +526,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Electronics",
         "stock": 50,
         "createdAt": "2023-02-05T00:00:00.000Z",
-        "updatedAt": "2023-02-15T00:00:00.000Z"
+        "updatedAt": "2023-02-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 45,
@@ -494,7 +538,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Wearables",
         "stock": 40,
         "createdAt": "2023-02-07T00:00:00.000Z",
-        "updatedAt": "2023-02-17T00:00:00.000Z"
+        "updatedAt": "2023-02-17T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 46,
@@ -505,7 +550,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Gaming",
         "stock": 150,
         "createdAt": "2023-03-01T00:00:00.000Z",
-        "updatedAt": "2023-03-11T00:00:00.000Z"
+        "updatedAt": "2023-03-11T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 47,
@@ -516,7 +562,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Home",
         "stock": 120,
         "createdAt": "2023-03-05T00:00:00.000Z",
-        "updatedAt": "2023-03-15T00:00:00.000Z"
+        "updatedAt": "2023-03-15T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 48,
@@ -527,7 +574,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Kitchen Appliances",
         "stock": 80,
         "createdAt": "2023-03-10T00:00:00.000Z",
-        "updatedAt": "2023-03-20T00:00:00.000Z"
+        "updatedAt": "2023-03-20T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 49,
@@ -538,7 +586,8 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Footwear",
         "stock": 60,
         "createdAt": "2023-04-01T00:00:00.000Z",
-        "updatedAt": "2023-04-10T00:00:00.000Z"
+        "updatedAt": "2023-04-10T00:00:00.000Z",
+        averageRating: 0
     },
     {
         "id": 50,
@@ -549,6 +598,7 @@ export const MOCK_PRODUCTS: Product[] = [
         "category": "Accessories",
         "stock": 90,
         "createdAt": "2023-04-05T00:00:00.000Z",
-        "updatedAt": "2023-04-15T00:00:00.000Z"
+        "updatedAt": "2023-04-15T00:00:00.000Z",
+        averageRating: 0
     },
 ]

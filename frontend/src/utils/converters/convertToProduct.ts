@@ -5,5 +5,6 @@ export function convertToProduct(response: ProductResponse): Product {
     return {
         ...response,
         price: parseFloat(response.price),
+        averageRating: parseFloat(response.averageRating),
     };
 }

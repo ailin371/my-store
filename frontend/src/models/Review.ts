@@ -4,5 +4,5 @@ export default interface Review {
     userId: number;
     rating: number;
     comment: string;
-    createdAt: Date;
+    createdAt?: string;
 }
