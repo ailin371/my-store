@@ -24,8 +24,6 @@ interface ActionItem {
     onClick: VoidFunction,
 }
 
-
-
 const ConnectedAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -37,10 +35,6 @@ const ConnectedAppBar = () => {
     const settings: ActionItem[] = useMemo(() => [
         {
             label: 'Profile',
-            onClick: () => { },
-        },
-        {
-            label: 'Account',
             onClick: () => { },
         },
         {
@@ -193,7 +187,7 @@ const ConnectedAppBar = () => {
                         ))}
                     </Box>
 
-                    {isLoggedIn && (
+                    {isLoggedIn ? (
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -223,7 +217,21 @@ const ConnectedAppBar = () => {
                                 ))}
                             </Menu>
                         </Box>
-                    )}
+                    )
+                        :
+                        <Button
+                            onClick={() => navigate('login')}
+                            sx={{
+                                my: 2,
+                                color: 'white',
+                                display: 'block',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.10)',
+                                }
+                            }}>
+                            Login
+                        </Button>
+                    }
                 </Toolbar>
             </Container>
         </AppBar>
