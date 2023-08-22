@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid, Pagination } from '@mui/material';
 import Product from '../../models/Product';
+import MultiSelectDropdown from './Dropdown';
 
 export interface ProductListViewProps {
     products: Product[],
@@ -9,16 +10,29 @@ export interface ProductListViewProps {
 }
 
 const ProductListView: React.FC<ProductListViewProps> = ({ products, onProductClick, itemsPerPage = 6 }) => {
+    const [categories, setCategories] = useState<string[]>([])
+    const filteredProducts = categories.length > 0 ? products.filter(product => categories.includes(product.category)) : products;
+
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const totalPages = Math.ceil(products.length / itemsPerPage);
-    const currentProducts = products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const currentProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     const placeholdersCount = itemsPerPage - currentProducts.length;
     const placeholders = Array.from({ length: placeholdersCount }).map(() => ({}));
 
     return (
-        <div>
-            <Grid container spacing={3} sx={{ pt: 1 }}>
+        <Grid container sx={{ py: 2, rowGap: 2 }}>
+            <Grid item xs={12}>
+                <MultiSelectDropdown
+                    label='Select Categories'
+                    options={[...new Set(products.map(p => p.category))]}
+                    onSelect={(selectedCategories) => {
+                        setCategories(selectedCategories)
+                        setCurrentPage(1);
+                    }}
+                />
+            </Grid>
+            <Grid item container xs={12} spacing={3}>
                 {currentProducts.map((product) => (
                     <Grid item xs={12} sm={6} md={4} key={product.id}>
                         <Card onClick={() => onProductClick(product)} sx={{ cursor: 'pointer' }}>
@@ -70,14 +84,15 @@ const ProductListView: React.FC<ProductListViewProps> = ({ products, onProductCl
                     );
                 })}
             </Grid>
-            <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={(_event, page) => setCurrentPage(page)}
-                shape="rounded"
-                sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}
-            />
-        </div>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={(_event, page) => setCurrentPage(page)}
+                    shape="rounded"
+                />
+            </Grid>
+        </Grid>
     );
 }
 
