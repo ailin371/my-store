@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Typography, Grid, Select, MenuItem, Rating, TextField, SxProps, FormControl, InputLabel, Divider, Box } from '@mui/material';
+import { Button, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Divider, Box } from '@mui/material';
 import Product from '../../models/Product';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MOCK_PRODUCTS } from '../../mock/mockProducts';
 import SpinnerWithBackdrop from '../../components/view/SpinnerWithBackdrop';
 import ConnectedUserReviews from '../../components/connected/ConnectedUserReviews';
 import Review from '../../models/Review';
+import { useLazyGetProductQuery } from '../../app/api';
 
 
 const ProductPage: React.FC = () => {
     const navigate = useNavigate();
+    const [fetchProduct] = useLazyGetProductQuery();
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
@@ -22,12 +24,13 @@ const ProductPage: React.FC = () => {
     }, [productId, product]);
 
     useEffect(() => {
-        // TODO: make an actual API call
-        const fetchedProduct = MOCK_PRODUCTS.find(p => p.id.toString() === productId);
+        if (!productId) return navigate('/page-not-found');
 
-        if (!fetchedProduct) navigate('/page-not-found');
+        fetchProduct({ id: productId })
+            .unwrap()
+            .then((data) => setProduct(data))
+            .catch(() => navigate('/page-not-found'));
 
-        setProduct(fetchedProduct ?? null);
     }, [productId, navigate]);
 
     if (!product) return <SpinnerWithBackdrop open={true} />;

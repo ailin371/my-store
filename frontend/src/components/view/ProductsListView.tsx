@@ -20,6 +20,10 @@ const ProductListView: React.FC<ProductListViewProps> = ({ products, onProductCl
     const placeholdersCount = itemsPerPage - currentProducts.length;
     const placeholders = Array.from({ length: placeholdersCount }).map(() => ({}));
 
+    if (filteredProducts.length === 0) {
+        return <>Oops, no items</>
+    }
+
     return (
         <Grid container sx={{ py: 2, rowGap: 2 }}>
             <Grid item xs={12}>

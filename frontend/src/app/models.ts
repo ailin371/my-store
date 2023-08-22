@@ -35,3 +35,15 @@ export interface UserLoginResponse {
     email: string,
     username: string,
 }
+
+export interface ProductResponse {
+    id: number;
+    name: string;
+    description: string;
+    price: string;
+    imageUrl: string;
+    category: string;
+    stock: number;
+    createdAt?: string;
+    updatedAt?: string;
+}

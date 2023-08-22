@@ -1,18 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import ProductListView from "../../components/view/ProductsListView";
-import { MOCK_PRODUCTS } from "../../mock/mockProducts";
+import { useGetProductsQuery } from "../../app/api";
 
 
 const ProductsPage = () => {
     const navigate = useNavigate();
+    const { data: products = [] } = useGetProductsQuery({})
 
     return (
         <ProductListView
-            products={MOCK_PRODUCTS}
-            onProductClick={(selectedProduct) => {
-                console.log("Clicked product:", selectedProduct);
-                navigate(`/product/${selectedProduct.id}`);
-            }}
+            products={products}
+            onProductClick={(selectedProduct) => navigate(`/products/${selectedProduct.id}`)}
         />
     );
 };

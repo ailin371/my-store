@@ -12,7 +12,8 @@ const NotFound404Page: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 2,
-                backgroundColor: theme => theme.palette.grey[100]
+                backgroundColor: theme => theme.palette.grey[100],
+                mt: 1,
             }}
         >
             <Typography variant="h1" color="textSecondary" gutterBottom>

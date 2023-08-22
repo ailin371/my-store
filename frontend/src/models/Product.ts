@@ -6,6 +6,6 @@ export default interface Product {
     imageUrl: string;          // URL to the product image
     category: string;          // Category to which the product belongs
     stock: number;             // Number of items in stock
-    createdAt?: Date;          // Date when the product was added (optional)
-    updatedAt?: Date;          // Date when the product was last updated (optional)
+    createdAt?: string;        // Date when the product was added (optional)
+    updatedAt?: string;        // Date when the product was last updated (optional)
 }
