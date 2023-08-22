@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './features/user/userSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import api from './api';
+import cartReducer from './features/cart/cartSlice';
 
 // redux-toolkit quick-start guide: https://redux-toolkit.js.org/tutorials/quick-start
 export const store = configureStore({
     reducer: {
         [api.reducerPath]: api.reducer,
-        user: userReducer
+        user: userReducer,
+        cart: cartReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });

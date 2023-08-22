@@ -33,7 +33,6 @@ const LoginForm = (props: LoginFormProps) => {
             }).unwrap();
 
             dispatch(setUser(user));
-
             navigate('/products');
         }
         catch (error) {

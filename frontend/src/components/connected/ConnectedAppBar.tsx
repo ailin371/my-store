@@ -14,10 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useAppDispatch, useAppSelector } from '../../app/store';
 import { selectUser } from '../../app/features/user/userSelectors';
-import { useLogoutUserMutation } from '../../app/api';
+import { useGetCartQuery, useLogoutUserMutation } from '../../app/api';
 import { useNavigate } from 'react-router-dom';
 import { clearUser } from '../../app/features/user/userSlice';
 import { useMemo } from 'react';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Badge } from '@mui/material';
+import Cart from '../../models/Cart';
+
 
 interface ActionItem {
     label: string,
@@ -28,6 +32,9 @@ const ConnectedAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+    const { data: cart = {} as Cart } = useGetCartQuery();
+    const { totalQuantity = 0 } = cart;
+    
     const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -35,10 +42,6 @@ const ConnectedAppBar = () => {
     const settings: ActionItem[] = useMemo(() => [
         {
             label: 'Profile',
-            onClick: () => { },
-        },
-        {
-            label: 'Cart',
             onClick: () => { },
         },
         {
@@ -188,35 +191,49 @@ const ConnectedAppBar = () => {
                     </Box>
 
                     {isLoggedIn ? (
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={fullName} src="" /> {/** wire src to profile image */}
+                        <>
+                            <Badge badgeContent={totalQuantity} color="error" sx={{ mr: 3 }}>
+                                <IconButton onClick={() => navigate('/cart')} sx={{ color: 'white' }}>
+                                    <ShoppingCartOutlinedIcon />
                                 </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting.label} onClick={setting.onClick}>
-                                        <Typography textAlign="center">{setting.label}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
+                            </Badge>
+
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt={fullName} src="" /> {/** wire src to profile image */}
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem
+                                            key={setting.label}
+                                            onClick={() => {
+                                                setting.onClick();
+                                                handleCloseUserMenu();
+                                            }}
+                                        >
+                                            <Typography textAlign="center">{setting.label}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </Box>
+                        </>
                     )
                         :
                         <Button

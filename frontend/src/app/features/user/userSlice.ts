@@ -9,6 +9,7 @@ const initialState: UserState = {
     firstName: '',
     lastName: '',
     userId: -1,
+    token: '',
 };
 
 const userSlice = createSlice({
@@ -16,9 +17,15 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (_state: UserState, action: PayloadAction<UserState>) => {
-            return action.payload;
+            const user = action.payload;
+            const userString = JSON.stringify(user);
+            sessionStorage.setItem("user", userString);
+
+            return user;
         },
         clearUser: () => {
+            sessionStorage.removeItem("user");
+
             return initialState;
         },
     },

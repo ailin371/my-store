@@ -14,7 +14,6 @@ const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => 
     const { data: productReviews = [] } = useGetProductReviewsQuery({ productId });
     const [addReview] = useAddReviewMutation();
     const [updatedReview] = useUpdateReviewMutation();
-    console.log(productReviews)
 
     const user = useAppSelector(selectUser);
 

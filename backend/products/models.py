@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import CustomUser
+from django.conf import settings
 
 # CharField: A field for short strings.
 # TextField: A field for longer text.
@@ -26,7 +26,7 @@ class Product(models.Model):
 
 class Review(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField()
     comment = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)

@@ -1,3 +1,5 @@
+import Cart from "../models/Cart";
+import CartItem from "../models/CartItem";
 import Review from "../models/Review";
 
 export type ResponseStatus = "success" | "error";
@@ -28,6 +30,7 @@ export interface UserLoginOriginalResponse {
     last_name: string,
     email: string,
     username: string,
+    token: string,
 }
 
 export interface UserLoginResponse {
@@ -36,6 +39,7 @@ export interface UserLoginResponse {
     lastName: string,
     email: string,
     username: string,
+    token: string,
 }
 
 export interface ProductResponse {
@@ -53,3 +57,11 @@ export interface ProductResponse {
 
 export type AddReviewRequest = Omit<Review, 'id' | 'createdAt'>;
 export type UpdateReviewRequest = Omit<Review, 'createdAt'>;
+
+export interface CartItemResponse extends Omit<CartItem, 'product'> {
+    product: ProductResponse,
+}
+export interface GetCartResponse extends Omit<Cart, 'items' | 'totalPrice'> {
+    items: CartItemResponse[],
+    totalPrice: string,
+}

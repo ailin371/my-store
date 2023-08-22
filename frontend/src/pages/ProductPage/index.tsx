@@ -4,16 +4,17 @@ import Product from '../../models/Product';
 import { useNavigate, useParams } from 'react-router-dom';
 import SpinnerWithBackdrop from '../../components/view/SpinnerWithBackdrop';
 import ConnectedUserReviews from '../../components/connected/ConnectedUserReviews';
-import { useLazyGetProductQuery } from '../../app/api';
+import { useAddItemToCartMutation, useLazyGetProductQuery } from '../../app/api';
 
 
 const ProductPage: React.FC = () => {
     const navigate = useNavigate();
     const [fetchProduct] = useLazyGetProductQuery();
+    const [addItemToCart] = useAddItemToCartMutation();
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-
+    console.log(quantity, product)
     useEffect(() => {
         if (!productId) return navigate('/page-not-found');
 
@@ -33,10 +34,15 @@ const ProductPage: React.FC = () => {
     const selectableQuantities = Array.from({ length: maxQuantity }, (_, i) => i + 1);
 
     const handleAddToCart = () => {
-        // TODO: Handle add to cart
+        addItemToCart({ product, quantity })
+            .unwrap()
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
-
-    console.log(product)
 
     return (
         <Box sx={{ p: 2 }}>
@@ -87,7 +93,6 @@ const ProductPage: React.FC = () => {
                                 </Button>
                             </Grid>
                         </Grid>
-
                     </Grid>
                 </Grid>
 
