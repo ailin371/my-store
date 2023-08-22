@@ -19,12 +19,12 @@ import { useNavigate } from 'react-router-dom';
 import { clearUser } from '../../app/features/user/userSlice';
 import { useMemo } from 'react';
 
-interface SettingsItem {
+interface ActionItem {
     label: string,
-    onClick?: VoidFunction,
+    onClick: VoidFunction,
 }
 
-const pages = ['Products'];
+
 
 const ConnectedAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -34,15 +34,18 @@ const ConnectedAppBar = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const settings: SettingsItem[] = useMemo(() => [
+    const settings: ActionItem[] = useMemo(() => [
         {
             label: 'Profile',
+            onClick: () => { },
         },
         {
             label: 'Account',
+            onClick: () => { },
         },
         {
             label: 'Cart',
+            onClick: () => { },
         },
         {
             label: 'Logout',
@@ -60,6 +63,11 @@ const ConnectedAppBar = () => {
             }
         }
     ], [logoutUser, dispatch, navigate]);
+
+    const pages: ActionItem[] = [{
+        label: 'Products',
+        onClick: () => navigate('products')
+    }];
 
     const { email, firstName, lastName } = useAppSelector(selectUser);
     const isLoggedIn = email !== "";
@@ -134,10 +142,13 @@ const ConnectedAppBar = () => {
                         >
                             {pages.map((page) => (
                                 <MenuItem
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
+                                    key={page.label}
+                                    onClick={() => {
+                                        handleCloseNavMenu();
+                                        page.onClick();
+                                    }}
                                 >
-                                    <Typography textAlign="center">{page}</Typography>
+                                    <Typography textAlign="center">{page.label}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -163,8 +174,11 @@ const ConnectedAppBar = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
+                                key={page.label}
+                                onClick={() => {
+                                    handleCloseNavMenu();
+                                    page.onClick();
+                                }}
                                 sx={{
                                     my: 2,
                                     color: 'white',
@@ -174,7 +188,7 @@ const ConnectedAppBar = () => {
                                     }
                                 }}
                             >
-                                {page}
+                                {page.label}
                             </Button>
                         ))}
                     </Box>
