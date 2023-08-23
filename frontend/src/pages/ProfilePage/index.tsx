@@ -13,7 +13,8 @@ const ProfilePage: React.FC = () => {
     const user = useAppSelector(selectUser);
     const { image } = user;
     const [updateProfilePicture, { isLoading }] = useUpdateProfilePictureMutation();
-    const [onUploadImageSuccess, setOnUploadImageSuccess] = useState(false);
+    const [openUploadImageSuccess, setOpenUploadImageSuccess] = useState(false);
+    const [openUploadImageFail, setOpenUploadImageFail] = useState(false);
 
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,9 +27,9 @@ const ProfilePage: React.FC = () => {
                         ...user,
                         ...response,
                     }));
-                    setOnUploadImageSuccess(true);
+                    setOpenUploadImageSuccess(true);
                 })
-                .catch((error) => console.log(error));
+                .catch((_error) => setOpenUploadImageFail(true));
         }
     };
 
@@ -78,11 +79,18 @@ const ProfilePage: React.FC = () => {
                 </Grid>
             </Grid>
             <Snackbar
-                open={onUploadImageSuccess}
+                open={openUploadImageSuccess}
                 autoHideDuration={3000}
-                onClose={() => setOnUploadImageSuccess(false)}
+                onClose={() => setOpenUploadImageSuccess(false)}
             >
                 <Alert severity="success">Profile image has been successfully uploaded!</Alert>
+            </Snackbar>
+            <Snackbar
+                open={openUploadImageFail}
+                autoHideDuration={3000}
+                onClose={() => setOpenUploadImageFail(false)}
+            >
+                <Alert severity="error">Failed to upload the profile image, please try again later...</Alert>
             </Snackbar>
         </Box>
     );

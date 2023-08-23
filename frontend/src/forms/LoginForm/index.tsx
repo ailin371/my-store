@@ -18,6 +18,7 @@ const LoginForm = (props: LoginFormProps) => {
 
     const [loginUser] = useLoginUserMutation();
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [logInSuccess, setLogInSuccess] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -32,8 +33,11 @@ const LoginForm = (props: LoginFormProps) => {
                 password: data.get(PASSWORD) as string,
             }).unwrap();
 
-            dispatch(setUser(user));
-            navigate('/products');
+            setLogInSuccess(true);
+            setTimeout(() => {
+                navigate('/products');
+                dispatch(setUser(user));
+            }, 500);
         }
         catch (error) {
             if (error && typeof error === 'object') {
@@ -113,6 +117,14 @@ const LoginForm = (props: LoginFormProps) => {
                 <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
                     {errorMessage}
                 </Alert>
+            </Snackbar>
+
+            <Snackbar
+                open={logInSuccess}
+                autoHideDuration={3000}
+                onClose={() => setLogInSuccess(false)}
+            >
+                <Alert severity="success">Logged in successfully!</Alert>
             </Snackbar>
         </>
     );

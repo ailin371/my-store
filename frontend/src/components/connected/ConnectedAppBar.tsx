@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { clearUser } from '../../app/features/user/userSlice';
 import { useMemo } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Badge } from '@mui/material';
+import { Alert, Badge, Snackbar } from '@mui/material';
 import Cart from '../../models/Cart';
 import { BASE_URL } from '../../app/constants';
 
@@ -39,6 +39,7 @@ const ConnectedAppBar = () => {
     const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const [logoutSuccess, setLogoutSuccess] = React.useState<boolean | null>(null);
 
     const settings: ActionItem[] = useMemo(() => [
         {
@@ -47,17 +48,18 @@ const ConnectedAppBar = () => {
         },
         {
             label: 'Logout',
-            onClick: async () => {
-                try {
-                    handleCloseNavMenu();
-                    handleCloseUserMenu();
-                    await logoutUser({}).unwrap();
-                    dispatch(clearUser());
-                    navigate('login');
-                }
-                catch {
-                    console.log("Logout failed!");
-                }
+            onClick: () => {
+                handleCloseNavMenu();
+                handleCloseUserMenu();
+
+                logoutUser({})
+                    .unwrap()
+                    .then(() => {
+                        setLogoutSuccess(true);
+                        dispatch(clearUser());
+                        navigate('login');
+                    })
+                    .catch(() => setLogoutSuccess(false));
             }
         }
     ], [logoutUser, dispatch, navigate]);
@@ -69,7 +71,6 @@ const ConnectedAppBar = () => {
 
     const { email, firstName, lastName, image } = useAppSelector(selectUser);
     const isLoggedIn = email !== "";
-    console.log(email)
     const fullName = `${firstName} ${lastName}`;
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -251,6 +252,20 @@ const ConnectedAppBar = () => {
                         </Button>
                     }
                 </Toolbar>
+                <Snackbar
+                    open={logoutSuccess === true}
+                    autoHideDuration={3000}
+                    onClose={() => setLogoutSuccess(null)}
+                >
+                    <Alert severity="info">Logged out</Alert>
+                </Snackbar>
+                <Snackbar
+                    open={logoutSuccess === false}
+                    autoHideDuration={3000}
+                    onClose={() => setLogoutSuccess(null)}
+                >
+                    <Alert severity="info">Failed to log out! Please try again later...</Alert>
+                </Snackbar>
             </Container>
         </AppBar>
     );

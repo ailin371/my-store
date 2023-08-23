@@ -17,6 +17,7 @@ const ConnectedCart: React.FC = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const [itemToDelete, setItemToDelete] = useState<CartItem | null>(null);
     const [openCheckoutSuccess, setOpenCheckoutSuccess] = useState(false);
+    const [removedSuccessfully, setRemovedSuccessfully] = useState<boolean | null>(null);
 
     const handleIncreaseQuantity = (cartItem: CartItem) => {
         updateCartItem({ id: cartItem.id, updates: { quantity: cartItem.quantity + 1 } })
@@ -27,8 +28,10 @@ const ConnectedCart: React.FC = () => {
     };
 
     const handleDeleteItem = (cartItem: CartItem) => {
-        console.log(cartItem)
-        removeCartItem(cartItem.id);
+        removeCartItem(cartItem.id)
+            .unwrap()
+            .then(() => setRemovedSuccessfully(true))
+            .catch(() => setRemovedSuccessfully(false));
     };
 
     const handleCheckout = () => {
@@ -104,6 +107,20 @@ const ConnectedCart: React.FC = () => {
                 onClose={() => setOpenCheckoutSuccess(false)}
             >
                 <Alert severity="success">Checked-out successfully!</Alert>
+            </Snackbar>
+            <Snackbar
+                open={removedSuccessfully === true}
+                autoHideDuration={3000}
+                onClose={() => setRemovedSuccessfully(null)}
+            >
+                <Alert severity="info">The item has been removed from the cart</Alert>
+            </Snackbar>
+            <Snackbar
+                open={removedSuccessfully === false}
+                autoHideDuration={3000}
+                onClose={() => setRemovedSuccessfully(null)}
+            >
+                <Alert severity="error">Failed to remove the item from the cart, please try again later...</Alert>
             </Snackbar>
         </Box>
     );

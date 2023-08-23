@@ -173,7 +173,7 @@ const api = createApi({
         }),
         checkout: builder.mutation<CheckoutResponse, void>({
             query: () => ({
-                url: '/cart/checkout/',
+                url: 'cart/checkout/',
                 method: 'POST',
             }),
             invalidatesTags: ['cart']

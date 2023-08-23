@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Typography, Rating, TextField, Box, SxProps, Divider } from '@mui/material';
+import { Button, Typography, Rating, TextField, Box, SxProps, Divider, Alert, Snackbar } from '@mui/material';
 import { useAppSelector } from '../../app/store';
 import { selectUser } from '../../app/features/user/userSelectors';
 import { useAddReviewMutation, useGetProductReviewsQuery, useGetPurchaseHistoryQuery, useUpdateReviewMutation } from '../../app/api';
@@ -13,16 +13,15 @@ interface UserReviewsProps {
 const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => {
     const { data: productReviews = [] } = useGetProductReviewsQuery({ productId });
     const { data: purchases = [] } = useGetPurchaseHistoryQuery();
-    const { data: reviews } = useGetProductReviewsQuery({ productId });
     const hasPurchasedProduct = useMemo(() => purchases.some(cartItem => cartItem.items.some(purchase => purchase.product.id === productId)), [purchases]);
-    console.log(purchases, hasPurchasedProduct)
-    console.log("reviews", reviews)
+    const [reviewMessage, setReviewMessage] = useState('');
+    const [reviewFailed, setReviewFailed] = useState(false);
 
     const [addReview] = useAddReviewMutation();
     const [updatedReview] = useUpdateReviewMutation();
 
     const user = useAppSelector(selectUser);
-    console.log(user)
+
     const sortedReviews = useMemo(() => {
         return [...productReviews].sort((a, b) => {
             if (a.user === user.id) return -1;
@@ -43,7 +42,6 @@ const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => 
         setComment(userReview?.comment ?? '');
     }, [userReview?.comment])
 
-    console.log(sortedReviews)
     const handleAddOrUpdateReview = () => {
         if (rating && comment) {
             const newReview: AddReviewRequest = {
@@ -60,22 +58,21 @@ const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => 
                     ...newReview,
                 })
                     .unwrap()
-                    .then(response => {
-                        console.log('Success!', response);
+                    .then(() => {
+                        setReviewMessage('Updated your review successfully!');
                     })
-                    .catch((error) => {
-                        console.log('Error!', error);
+                    .catch(() => {
+                        setReviewFailed(true);
                     });
             }
             else {
-                console.log(newReview)
                 addReview(newReview)
                     .unwrap()
-                    .then(response => {
-                        console.log('Success!', response);
+                    .then(() => {
+                        setReviewMessage('Added your review successfully!');
                     })
-                    .catch((error) => {
-                        console.log('Error!', error);
+                    .catch(() => {
+                        setReviewFailed(true);
                     });
             }
         }
@@ -118,6 +115,21 @@ const ConnectedUserReviews: React.FC<UserReviewsProps> = ({ productId, sx }) => 
                 </div>
             ))}
             {sortedReviews.length === 0 && <Typography>No reviews yet...</Typography>}
+
+            <Snackbar
+                open={reviewMessage.length > 0}
+                autoHideDuration={3000}
+                onClose={() => setReviewMessage('')}
+            >
+                <Alert severity="success">{reviewMessage}</Alert>
+            </Snackbar>
+            <Snackbar
+                open={reviewFailed}
+                autoHideDuration={3000}
+                onClose={() => setReviewFailed(false)}
+            >
+                <Alert severity="error">Failed to send the review. Please try again later...</Alert>
+            </Snackbar>
         </Box>
     );
 };

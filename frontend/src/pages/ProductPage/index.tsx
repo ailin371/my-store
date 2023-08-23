@@ -14,7 +14,7 @@ const ProductPage: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-    const [openAddedToCartSuccess, setOpenAddedToCartSuccess] = useState(false);
+    const [openAddedToCartSuccess, setOpenAddedToCartSuccess] = useState<boolean | null>(null);
 
     useEffect(() => {
         if (!productId) return navigate('/page-not-found');
@@ -37,11 +37,11 @@ const ProductPage: React.FC = () => {
     const handleAddToCart = () => {
         addItemToCart({ product, quantity })
             .unwrap()
-            .then((_response) => {
+            .then(() => {
                 setOpenAddedToCartSuccess(true);
             })
-            .catch(error => {
-                console.log(error);
+            .catch(() => {
+                setOpenAddedToCartSuccess(false)
             });
     };
 
@@ -112,11 +112,18 @@ const ProductPage: React.FC = () => {
             </Grid>
 
             <Snackbar
-                open={openAddedToCartSuccess}
+                open={openAddedToCartSuccess === true}
                 autoHideDuration={3000}
-                onClose={() => setOpenAddedToCartSuccess(false)}
+                onClose={() => setOpenAddedToCartSuccess(null)}
             >
                 <Alert severity="success">Item added to cart successfully!</Alert>
+            </Snackbar>
+            <Snackbar
+                open={openAddedToCartSuccess === false}
+                autoHideDuration={3000}
+                onClose={() => setOpenAddedToCartSuccess(null)}
+            >
+                <Alert severity="error">Failed to add the item to the cart. Please try again later...</Alert>
             </Snackbar>
         </Box>
     );
