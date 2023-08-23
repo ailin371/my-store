@@ -25,7 +25,7 @@ export interface UserLoginRequest {
 }
 
 export interface UserLoginOriginalResponse {
-    user_id: number,
+    id: number,
     first_name: string,
     last_name: string,
     email: string,
@@ -34,7 +34,7 @@ export interface UserLoginOriginalResponse {
 }
 
 export interface UserLoginResponse {
-    userId: number,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
@@ -64,4 +64,12 @@ export interface CartItemResponse extends Omit<CartItem, 'product'> {
 export interface GetCartResponse extends Omit<Cart, 'items' | 'totalPrice'> {
     items: CartItemResponse[],
     totalPrice: string,
+}
+
+export interface CheckoutResponse {
+    status: string;
+}
+
+export interface UserPurchasedProductResponse {
+    purchased: boolean;
 }

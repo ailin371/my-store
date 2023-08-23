@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Divider, Box, Rating } from '@mui/material';
+import { Button, Typography, Grid, Select, MenuItem, FormControl, InputLabel, Divider, Box, Rating, Alert, Snackbar } from '@mui/material';
 import Product from '../../models/Product';
 import { useNavigate, useParams } from 'react-router-dom';
 import SpinnerWithBackdrop from '../../components/view/SpinnerWithBackdrop';
@@ -14,7 +14,8 @@ const ProductPage: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-    console.log(quantity, product)
+    const [openAddedToCartSuccess, setOpenAddedToCartSuccess] = useState(false);
+
     useEffect(() => {
         if (!productId) return navigate('/page-not-found');
 
@@ -36,8 +37,8 @@ const ProductPage: React.FC = () => {
     const handleAddToCart = () => {
         addItemToCart({ product, quantity })
             .unwrap()
-            .then(response => {
-                console.log(response);
+            .then((_response) => {
+                setOpenAddedToCartSuccess(true);
             })
             .catch(error => {
                 console.log(error);
@@ -108,7 +109,15 @@ const ProductPage: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-            </Grid >
+            </Grid>
+
+            <Snackbar
+                open={openAddedToCartSuccess}
+                autoHideDuration={3000}
+                onClose={() => setOpenAddedToCartSuccess(false)}
+            >
+                <Alert severity="success">Item added to cart successfully!</Alert>
+            </Snackbar>
         </Box>
     );
 };

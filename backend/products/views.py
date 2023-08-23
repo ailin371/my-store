@@ -32,10 +32,10 @@ class ReviewViewSet(mixins.CreateModelMixin,
     permission_classes = [permissions.IsAuthenticated, IsReviewOwner]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        # Get product from the productId in the URL
+        product = Product.objects.get(pk=self.kwargs['productId'])
+        serializer.save(user=self.request.user, product=product)
 
     def get_queryset(self):
-        product_id = self.request.query_params.get('productId', None)
-        if product_id:
-            return self.queryset.filter(product_id=product_id)
-        return self.queryset
+        # Filter reviews based on productId from the URL
+        return self.queryset.filter(product_id=self.kwargs['productId'])

@@ -1,11 +1,12 @@
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import logout
 from rest_framework import status, views
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserLoginSerializer, UserRegistrationSerializer, UserSerializer
+from accounts.models import Purchase, PurchaseItem
+from .serializers import PurchaseSerializer, UserLoginSerializer, UserRegistrationSerializer, UserSerializer
 from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 
 
 class RegisterUserView(APIView):
@@ -41,3 +42,25 @@ class LogoutAPIView(APIView):
         # Use Django's built-in logout
         logout(request)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def user_purchased_product(request, product_id):
+    if request.user.is_authenticated:
+        print("HEREEEEEEEEEEE", PurchaseItem.objects.filter(
+            purchase__user=request.user))
+        purchased = PurchaseItem.objects.filter(
+            purchase__user=request.user, product_id=product_id).exists()
+
+        return Response({'purchased': purchased}, status=status.HTTP_200_OK)
+
+    return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class PurchaseHistoryView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        purchases = Purchase.objects.filter(user=request.user)
+        serializer = PurchaseSerializer(purchases, many=True)
+        return Response(serializer.data)

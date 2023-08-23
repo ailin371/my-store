@@ -1,5 +1,8 @@
+from accounts.models import Purchase, PurchaseItem
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
+
+from products.serializers import ProductSerializer
 
 User = get_user_model()
 
@@ -35,3 +38,29 @@ class UserLoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Incorrect Credentials")
+
+
+class NestedPurchaseSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+
+    class Meta:
+        model = Purchase
+        fields = '__all__'
+
+
+class PurchaseItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    purchase = NestedPurchaseSerializer()
+
+    class Meta:
+        model = PurchaseItem
+        fields = '__all__'
+
+
+class PurchaseSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    items = PurchaseItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Purchase
+        fields = '__all__'

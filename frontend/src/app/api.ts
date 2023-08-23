@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { UserRegistrationResponse, UserRegistrationRequest, UserLoginRequest, UserLoginOriginalResponse, UserLoginResponse, ProductResponse, AddReviewRequest, UpdateReviewRequest, GetCartResponse } from './models';
+import { UserRegistrationResponse, UserRegistrationRequest, UserLoginRequest, UserLoginOriginalResponse, UserLoginResponse, ProductResponse, AddReviewRequest, UpdateReviewRequest, CheckoutResponse, UserPurchasedProductResponse } from './models';
 import Product from '../models/Product';
 import { convertToProduct } from '../utils/converters/productConverters';
 import Review from '../models/Review';
 import Cart from '../models/Cart';
 import CartItem from '../models/CartItem';
 import { convertToCart } from '../utils/converters/cartConverters';
+import { Purchase } from '../models/Purchase';
 
 
 const baseQuery = fetchBaseQuery({
@@ -50,7 +51,7 @@ const api = createApi({
                 email: res.email,
                 firstName: res.first_name,
                 lastName: res.last_name,
-                userId: res.user_id,
+                id: res.id,
                 username: res.username,
                 token: res.token,
             })
@@ -81,43 +82,46 @@ const api = createApi({
         }),
         getProductReviews: builder.query<Review[], { productId: number }>({
             query: ({ productId }) => ({
-                url: '/reviews',
-                method: 'GET',
-                params: {
-                    productId
-                }
-            }),
-        }),
-        getReview: builder.query<Review, { id: number }>({
-            query: ({ id }) => ({
-                url: `/reviews/${id}/`,
+                url: `/products/${productId}/reviews/`,
                 method: 'GET',
             }),
+            providesTags: ['reviews'],
         }),
-        addReview: builder.mutation<Review, AddReviewRequest>({
-            query: (review) => ({
-                url: '/reviews/',
-                method: 'POST',
-                body: review,
-                credentials: 'include',
-            }),
+        addReview: builder.mutation<Review, AddReviewRequest & { productId: number }>({
+            query: ({ product: productId, user: userId, ...review }) => {
+                return {
+                    url: `/products/${productId}/reviews/`,
+                    method: 'POST',
+                    body: {
+                        ...review,
+                        product: productId,
+                        user: userId,
+                    },
+                    credentials: 'include',
+                };
+            },
             invalidatesTags: ['reviews'],
         }),
         updateReview: builder.mutation<Review, UpdateReviewRequest>({
-            query: ({ id, ...review }) => ({
-                url: `/reviews/${id}/`,
+            query: ({ product: productId, id, ...review }) => ({
+                url: `/products/${productId}/reviews/${id}/`,
                 method: 'PUT',
-                body: review,
+                body: {
+                    ...review,
+                    product: productId,
+                },
                 credentials: 'include',
             }),
             invalidatesTags: ['reviews'],
         }),
-        deleteReview: builder.mutation<{ success: boolean }, { id: number }>({
-            query: ({ id }) => ({
-                url: `/reviews/${id}/`,
-                method: 'DELETE',
-                credentials: 'include',
-            }),
+        deleteReview: builder.mutation<{ success: boolean }, { productId: number, id: number }>({
+            query: ({ productId, id }) => {
+                return {
+                    url: `/products/${productId}/reviews/${id}/`,
+                    method: 'DELETE',
+                    credentials: 'include',
+                };
+            },
             invalidatesTags: ['reviews'],
         }),
         getCart: builder.query<Cart, void>({
@@ -146,12 +150,29 @@ const api = createApi({
             invalidatesTags: ['cart'],
         }),
         removeCartItem: builder.mutation<{ success: boolean, id: number }, number>({
-            query: (id) => ({
-                url: `cart/items/${id}/`,
-                method: 'DELETE',
-                credentials: 'include',
-            }),
+            query: (id) => {
+                return {
+                    url: `cart/items/${id}/`,
+                    method: 'DELETE',
+                    credentials: 'include',
+                };
+            },
             invalidatesTags: ['cart'],
+        }),
+        checkout: builder.mutation<CheckoutResponse, void>({
+            query: () => ({
+                url: '/cart/checkout/',
+                method: 'POST',
+            }),
+            invalidatesTags: ['cart']
+        }),
+        userPurchasedProduct: builder.query<UserPurchasedProductResponse, number>({
+            query: (productId) => `user/purchased/${productId}/`,
+            providesTags: ['cart'],
+        }),
+        getPurchaseHistory: builder.query<Purchase[], void>({
+            query: () => '/user/purchases/',
+            providesTags: ['cart'],
         }),
     }),
 });
@@ -160,6 +181,7 @@ export const {
     useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation,
     useGetProductsQuery, useGetProductQuery, useLazyGetProductQuery,
     useGetProductReviewsQuery, useLazyGetProductReviewsQuery, useAddReviewMutation, useUpdateReviewMutation,
-    useGetCartQuery, useAddItemToCartMutation, useUpdateCartItemMutation, useRemoveCartItemMutation,
+    useGetCartQuery, useAddItemToCartMutation, useUpdateCartItemMutation, useRemoveCartItemMutation, useCheckoutMutation,
+    useUserPurchasedProductQuery, useGetPurchaseHistoryQuery,
 } = api;
 export default api;

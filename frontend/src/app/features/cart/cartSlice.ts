@@ -4,8 +4,11 @@ import Product from '../../../models/Product';
 import { RootState } from '../../store';
 
 const initialState: Cart = {
-    items: {},
+    items: [],
     totalQuantity: 0,
+    totalPrice: 0,
+    id: -1,
+    user: -1
 }
 
 export const cartSlice = createSlice({

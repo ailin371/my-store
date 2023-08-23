@@ -1,3 +1,4 @@
+from accounts.models import Purchase, PurchaseItem
 from .models import Cart, CartItem, Product
 from .serializers import CartSerializer, CartItemSerializer
 from rest_framework.decorators import api_view
@@ -10,7 +11,6 @@ def get_user_cart(request):
     if request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(user=request.user)
         serializer = CartSerializer(cart)
-        print('HERE', serializer.data)
         return Response(serializer.data)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -50,12 +50,11 @@ def delete_cart_item(request, item_id):
 
 @api_view(['PATCH', 'DELETE'])
 def update_cart_item_quantity(request, item_id):
-    print("REQUESTTTTTTTTTTT", request)
     if request.user.is_authenticated:
         try:
             cart_item = CartItem.objects.get(
                 pk=item_id, cartId__user=request.user)
-
+            print("HEREEEEEEEEEEEEEEEEE", cart_item)
             if request.method == 'PATCH':
                 new_quantity = request.data.get('quantity')
                 if new_quantity is not None and new_quantity > 0:
@@ -73,4 +72,24 @@ def update_cart_item_quantity(request, item_id):
         except CartItem.DoesNotExist:
             return Response({'detail': 'Item not found.'}, status=status.HTTP_404_NOT_FOUND)
 
+    return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+def checkout(request):
+    if request.user.is_authenticated:
+        try:
+            cart = Cart.objects.get(user=request.user)
+            purchase = Purchase.objects.create(
+                user=request.user, totalCost=cart.totalPrice)
+
+            for item in cart.items.all():
+                PurchaseItem.objects.create(
+                    purchase=purchase, product=item.product, quantity=item.quantity, priceAtPurchase=item.product.price)
+
+            cart.items.clear()
+
+            return Response({"status": "Purchase successful"}, status=status.HTTP_200_OK)
+        except Cart.DoesNotExist:
+            return Response({"detail": "Your cart is empty."}, status=status.HTTP_400_BAD_REQUEST)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)
