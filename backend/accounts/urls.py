@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LoginAPIView, LogoutAPIView, PurchaseHistoryView, RegisterUserView, user_purchased_product
+from .views import LoginAPIView, LogoutAPIView, PurchaseHistoryView, RegisterUserView, UpdateProfilePicture, user_purchased_product
 
 urlpatterns = [
     path('register/', RegisterUserView.as_view(), name='register'),
@@ -8,4 +8,6 @@ urlpatterns = [
     path('user/purchased/<int:product_id>/',
          user_purchased_product, name='user-purchased-product'),
     path('user/purchases/', PurchaseHistoryView.as_view(), name='purchase-history'),
+    path('user/update-profile-picture/', UpdateProfilePicture.as_view(),
+         name='update-profile-picture'),
 ]

@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 BASE_API = 'api/'
 
@@ -24,4 +27,4 @@ urlpatterns = [
     path(BASE_API, include('products.urls')),
     path(BASE_API, include('accounts.urls')),
     path(BASE_API, include('cart.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

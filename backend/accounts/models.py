@@ -5,7 +5,7 @@ from products.models import Product
 
 
 class CustomUser(AbstractUser):
-    pass  # you could add extra fields here if required.
+    image = models.ImageField(upload_to='profile_pics', null=True, blank=True) # This is the field where the image will be stored. 'upload_to' specifies the subdirectory of 'MEDIA_DIR' where the photos will go.
 
 
 class Purchase(models.Model):

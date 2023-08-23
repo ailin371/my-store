@@ -24,9 +24,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(
+        max_length=None, allow_empty_file=False, use_url=True)
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email',
+                  'first_name', 'last_name', 'image')
 
 
 class UserLoginSerializer(serializers.Serializer):

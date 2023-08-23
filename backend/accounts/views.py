@@ -1,3 +1,4 @@
+from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import logout
 from rest_framework import status, views
@@ -64,3 +65,16 @@ class PurchaseHistoryView(APIView):
         purchases = Purchase.objects.filter(user=request.user)
         serializer = PurchaseSerializer(purchases, many=True)
         return Response(serializer.data)
+
+
+class UpdateProfilePicture(APIView):
+    parser_classes = [parsers.MultiPartParser]
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

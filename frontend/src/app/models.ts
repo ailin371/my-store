@@ -31,6 +31,7 @@ export interface UserLoginOriginalResponse {
     email: string,
     username: string,
     token: string,
+    image: string | null,
 }
 
 export interface UserLoginResponse {
@@ -40,6 +41,7 @@ export interface UserLoginResponse {
     email: string,
     username: string,
     token: string,
+    image: string | null,
 }
 
 export interface ProductResponse {

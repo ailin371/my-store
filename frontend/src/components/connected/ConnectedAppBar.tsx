@@ -21,6 +21,7 @@ import { useMemo } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Badge } from '@mui/material';
 import Cart from '../../models/Cart';
+import { BASE_URL } from '../../app/constants';
 
 
 interface ActionItem {
@@ -34,7 +35,7 @@ const ConnectedAppBar = () => {
 
     const { data: cart = {} as Cart } = useGetCartQuery();
     const { totalQuantity = 0 } = cart;
-    
+
     const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ const ConnectedAppBar = () => {
     const settings: ActionItem[] = useMemo(() => [
         {
             label: 'Profile',
-            onClick: () => { },
+            onClick: () => navigate('profile'),
         },
         {
             label: 'Logout',
@@ -66,7 +67,7 @@ const ConnectedAppBar = () => {
         onClick: () => navigate('products')
     }];
 
-    const { email, firstName, lastName } = useAppSelector(selectUser);
+    const { email, firstName, lastName, image } = useAppSelector(selectUser);
     const isLoggedIn = email !== "";
     console.log(email)
     const fullName = `${firstName} ${lastName}`;
@@ -201,7 +202,7 @@ const ConnectedAppBar = () => {
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt={fullName} src="" /> {/** wire src to profile image */}
+                                        <Avatar alt={fullName} src={`${BASE_URL}${image}`} /> {/** wire src to profile image */}
                                     </IconButton>
                                 </Tooltip>
                                 <Menu

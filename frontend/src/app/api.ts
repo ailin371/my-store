@@ -7,10 +7,13 @@ import Cart from '../models/Cart';
 import CartItem from '../models/CartItem';
 import { convertToCart } from '../utils/converters/cartConverters';
 import { Purchase } from '../models/Purchase';
+import { convertToUser } from '../utils/converters/userConverters';
+import { BASE_URL } from './constants';
+import User from '../models/User';
 
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api",
+    baseUrl: `${BASE_URL}/api`,
     prepareHeaders: (headers) => {
         const userString = sessionStorage.getItem("user");
         if (userString) {
@@ -47,20 +50,29 @@ const api = createApi({
                 method: 'POST',
                 body: credentials,
             }),
-            transformResponse: (res: UserLoginOriginalResponse) => ({
-                email: res.email,
-                firstName: res.first_name,
-                lastName: res.last_name,
-                id: res.id,
-                username: res.username,
-                token: res.token,
-            })
+            transformResponse: convertToUser
         }),
         logoutUser: builder.mutation({
             query: () => ({
                 url: '/logout/',
                 method: 'POST',
                 body: {}
+            }),
+        }),
+        updateProfilePicture: builder.mutation<Omit<User, 'token'>, File>({
+            query: (file: File) => {
+                const formData = new FormData();
+                formData.append('image', file);
+                return {
+                    url: 'user/update-profile-picture/',
+                    method: 'PUT',
+                    body: formData,
+                }
+            },
+            transformResponse: (res: UserLoginOriginalResponse) => ({
+                ...res,
+                firstName: res.first_name,
+                lastName: res.last_name
             }),
         }),
         getProducts: builder.query<Product[], { category?: string }>({
@@ -87,7 +99,7 @@ const api = createApi({
             }),
             providesTags: ['reviews'],
         }),
-        addReview: builder.mutation<Review, AddReviewRequest & { productId: number }>({
+        addReview: builder.mutation<Review, AddReviewRequest>({
             query: ({ product: productId, user: userId, ...review }) => {
                 return {
                     url: `/products/${productId}/reviews/`,
@@ -178,7 +190,7 @@ const api = createApi({
 });
 
 export const {
-    useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation,
+    useRegisterUserMutation, useLoginUserMutation, useLogoutUserMutation, useUpdateProfilePictureMutation,
     useGetProductsQuery, useGetProductQuery, useLazyGetProductQuery,
     useGetProductReviewsQuery, useLazyGetProductReviewsQuery, useAddReviewMutation, useUpdateReviewMutation,
     useGetCartQuery, useAddItemToCartMutation, useUpdateCartItemMutation, useRemoveCartItemMutation, useCheckoutMutation,

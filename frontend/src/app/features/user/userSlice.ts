@@ -10,6 +10,7 @@ const initialState: UserState = {
     lastName: '',
     id: -1,
     token: '',
+    image: null,
 };
 
 const userSlice = createSlice({
