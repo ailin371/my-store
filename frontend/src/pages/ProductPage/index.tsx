@@ -24,7 +24,7 @@ const ProductPage: React.FC = () => {
             .then((data) => setProduct(data))
             .catch(() => navigate('/page-not-found'));
 
-    }, [productId, navigate]);
+    }, [productId, navigate, fetchProduct]);
 
     if (!productId || !product) return <SpinnerWithBackdrop open={true} />;
 

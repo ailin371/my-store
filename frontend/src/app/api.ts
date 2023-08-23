@@ -35,7 +35,7 @@ const baseQuery = fetchBaseQuery({
 const api = createApi({
     reducerPath: 'api',
     baseQuery,
-    tagTypes: ['reviews', 'cart', 'login'],
+    tagTypes: ['reviews', 'cart', 'product'],
     endpoints: (builder) => ({
         registerUser: builder.mutation<UserRegistrationResponse, Partial<UserRegistrationRequest>>({
             query: (newUser) => ({
@@ -51,7 +51,6 @@ const api = createApi({
                 body: credentials,
             }),
             transformResponse: convertToUser,
-            providesTags: ['login'],
             invalidatesTags: ['reviews', 'cart'],
         }),
         logoutUser: builder.mutation({
@@ -60,7 +59,7 @@ const api = createApi({
                 method: 'POST',
                 body: {}
             }),
-            invalidatesTags: ['reviews', 'cart', 'login'],
+            invalidatesTags: ['reviews', 'cart'],
         }),
         updateProfilePicture: builder.mutation<Omit<User, 'token'>, File>({
             query: (file: File) => {
@@ -94,6 +93,7 @@ const api = createApi({
                 method: 'GET',
             }),
             transformResponse: convertToProduct,
+            providesTags: ['product'],
         }),
         getProductReviews: builder.query<Review[], { productId: number }>({
             query: ({ productId }) => ({
@@ -115,7 +115,7 @@ const api = createApi({
                     credentials: 'include',
                 };
             },
-            invalidatesTags: ['reviews'],
+            invalidatesTags: ['reviews', 'product'],
         }),
         updateReview: builder.mutation<Review, UpdateReviewRequest>({
             query: ({ product: productId, id, ...review }) => ({
@@ -127,7 +127,7 @@ const api = createApi({
                 },
                 credentials: 'include',
             }),
-            invalidatesTags: ['reviews'],
+            invalidatesTags: ['reviews', 'product'],
         }),
         deleteReview: builder.mutation<{ success: boolean }, { productId: number, id: number }>({
             query: ({ productId, id }) => {
@@ -137,7 +137,7 @@ const api = createApi({
                     credentials: 'include',
                 };
             },
-            invalidatesTags: ['reviews'],
+            invalidatesTags: ['reviews', 'product'],
         }),
         getCart: builder.query<Cart, void>({
             query: () => 'cart/',
