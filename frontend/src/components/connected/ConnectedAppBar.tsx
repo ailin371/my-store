@@ -27,6 +27,7 @@ import { BASE_URL } from '../../app/constants';
 interface ActionItem {
     label: string,
     onClick: VoidFunction,
+    disabled?: boolean,
 }
 
 const ConnectedAppBar = () => {
@@ -39,6 +40,7 @@ const ConnectedAppBar = () => {
     const [logoutUser] = useLogoutUserMutation();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const user = useAppSelector(selectUser);
     const [logoutSuccess, setLogoutSuccess] = React.useState<boolean | null>(null);
 
     const settings: ActionItem[] = useMemo(() => [
@@ -66,7 +68,8 @@ const ConnectedAppBar = () => {
 
     const pages: ActionItem[] = [{
         label: 'Products',
-        onClick: () => navigate('products')
+        onClick: () => navigate('products'),
+        disabled: user.token.length === 0,
     }];
 
     const { email, firstName, lastName, image } = useAppSelector(selectUser);
@@ -146,6 +149,7 @@ const ConnectedAppBar = () => {
                                         handleCloseNavMenu();
                                         page.onClick();
                                     }}
+                                    disabled={page.disabled}
                                 >
                                     <Typography textAlign="center">{page.label}</Typography>
                                 </MenuItem>
@@ -174,6 +178,7 @@ const ConnectedAppBar = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page.label}
+                                disabled={page.disabled}
                                 onClick={() => {
                                     handleCloseNavMenu();
                                     page.onClick();
@@ -200,10 +205,12 @@ const ConnectedAppBar = () => {
                                 </IconButton>
                             </Badge>
 
+                            <Typography sx={{ mr: 1 }}>Hello, {user.firstName}</Typography>
+
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt={fullName} src={`${BASE_URL}${image}`} /> {/** wire src to profile image */}
+                                        <Avatar alt={fullName} src={`${BASE_URL}/${image}`} />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu

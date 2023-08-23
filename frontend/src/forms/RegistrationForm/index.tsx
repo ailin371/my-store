@@ -20,6 +20,7 @@ const RegistrationForm = (props: RegistrationFormProps) => {
 
     const [user, setUser] = useState<UserRegistrationRequest>({ email: "", username: "", password: "", first_name: "", last_name: "" });
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
     const [registerUser] = useRegisterUserMutation();
     const navigate = useNavigate();
 
@@ -36,7 +37,8 @@ const RegistrationForm = (props: RegistrationFormProps) => {
         try {
             await registerUser(user).unwrap();
 
-            navigate("/login");
+            setRegistrationSuccess(true);
+            setTimeout(() => navigate("/login"), 1000);
         }
         catch (error) {
             if (error && typeof error === 'object' && 'data' in error &&
@@ -143,6 +145,13 @@ const RegistrationForm = (props: RegistrationFormProps) => {
                 <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
                     {errorMessage}
                 </Alert>
+            </Snackbar>
+            <Snackbar
+                open={registrationSuccess}
+                autoHideDuration={3000}
+                onClose={() => setRegistrationSuccess(false)}
+            >
+                <Alert severity="success">Registered your user successfully!</Alert>
             </Snackbar>
         </>
     );

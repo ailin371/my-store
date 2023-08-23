@@ -84,10 +84,10 @@ const LoginForm = (props: LoginFormProps) => {
                     id={PASSWORD}
                     autoComplete="current-password"
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
                     label="Remember me"
-                />
+                /> */}
                 <Button
                     type="submit"
                     fullWidth
@@ -97,11 +97,11 @@ const LoginForm = (props: LoginFormProps) => {
                     Login
                 </Button>
                 <Grid container>
-                    <Grid item xs>
+                    {/* <Grid item xs>
                         <Link href="#" variant="body2">
                             Forgot password?
                         </Link>
-                    </Grid>
+                    </Grid> */}
                     <Grid item>
                         <Link href="register" variant="body2">
                             Don't have an account? Register
