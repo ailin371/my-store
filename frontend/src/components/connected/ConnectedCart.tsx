@@ -6,6 +6,8 @@ import CartItemCard from '../view/CartItemCard';
 import CartItem from '../../models/CartItem';
 import YesNoDialog from '../view/YesNoDialog';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
+import { useAppSelector } from '../../app/store';
+import { selectUser } from '../../app/features/user/userSelectors';
 
 
 const ConnectedCart: React.FC = () => {
@@ -18,6 +20,7 @@ const ConnectedCart: React.FC = () => {
     const [itemToDelete, setItemToDelete] = useState<CartItem | null>(null);
     const [openCheckoutSuccess, setOpenCheckoutSuccess] = useState(false);
     const [removedSuccessfully, setRemovedSuccessfully] = useState<boolean | null>(null);
+    const user = useAppSelector(selectUser);
 
     const handleIncreaseQuantity = (cartItem: CartItem) => {
         updateCartItem({ id: cartItem.id, updates: { quantity: cartItem.quantity + 1 } })

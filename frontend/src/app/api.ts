@@ -35,7 +35,7 @@ const baseQuery = fetchBaseQuery({
 const api = createApi({
     reducerPath: 'api',
     baseQuery,
-    tagTypes: ['reviews', 'cart'],
+    tagTypes: ['reviews', 'cart', 'login'],
     endpoints: (builder) => ({
         registerUser: builder.mutation<UserRegistrationResponse, Partial<UserRegistrationRequest>>({
             query: (newUser) => ({
@@ -50,7 +50,9 @@ const api = createApi({
                 method: 'POST',
                 body: credentials,
             }),
-            transformResponse: convertToUser
+            transformResponse: convertToUser,
+            providesTags: ['login'],
+            invalidatesTags: ['reviews', 'cart'],
         }),
         logoutUser: builder.mutation({
             query: () => ({
@@ -58,6 +60,7 @@ const api = createApi({
                 method: 'POST',
                 body: {}
             }),
+            invalidatesTags: ['reviews', 'cart', 'login'],
         }),
         updateProfilePicture: builder.mutation<Omit<User, 'token'>, File>({
             query: (file: File) => {

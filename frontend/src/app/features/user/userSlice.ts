@@ -3,15 +3,19 @@ import { UserLoginResponse } from '../../models';
 
 export type UserState = UserLoginResponse;
 
-const initialState: UserState = {
-    username: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    id: -1,
-    token: '',
-    image: null,
-};
+const userString = sessionStorage.getItem('user');
+const initialState: UserState = !userString ?
+    {
+        username: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        id: -1,
+        token: '',
+        image: null,
+    }
+    :
+    JSON.parse(userString);
 
 const userSlice = createSlice({
     name: 'user',

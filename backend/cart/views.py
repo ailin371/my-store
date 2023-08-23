@@ -9,7 +9,11 @@ from rest_framework import status
 @api_view(['GET'])
 def get_user_cart(request):
     if request.user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        try:
+            cart = Cart.objects.get(user=request.user.id)
+        except Cart.DoesNotExist:
+            return Response({"error": "Cart does not exist for this user."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = CartSerializer(cart)
         return Response(serializer.data)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=status.HTTP_401_UNAUTHORIZED)

@@ -12,7 +12,7 @@ import { Navigate } from 'react-router-dom';
 const LoginPage = () => {
     const user = useAppSelector(selectUser);
 
-    if (user.token.length > 0) return <Navigate to='/products' />;
+    if (user.token.length > 0) return <Navigate to='/products' replace />;
 
     return (
         <Container component="main" maxWidth="xs">

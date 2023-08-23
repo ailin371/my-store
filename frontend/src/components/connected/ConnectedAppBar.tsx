@@ -34,7 +34,7 @@ const ConnectedAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const { data: cart = {} as Cart } = useGetCartQuery();
+    const { data: cart = {} as Cart, refetch: refetchCart } = useGetCartQuery();
     const { totalQuantity = 0 } = cart;
 
     const [logoutUser] = useLogoutUserMutation();
@@ -42,6 +42,10 @@ const ConnectedAppBar = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectUser);
     const [logoutSuccess, setLogoutSuccess] = React.useState<boolean | null>(null);
+
+    React.useEffect(() => {
+        refetchCart();
+    }, [user?.token]);
 
     const settings: ActionItem[] = useMemo(() => [
         {
@@ -72,7 +76,7 @@ const ConnectedAppBar = () => {
         disabled: user.token.length === 0,
     }];
 
-    const { email, firstName, lastName, image } = useAppSelector(selectUser);
+    const { email, firstName, lastName, image } = user;
     const isLoggedIn = email !== "";
     const fullName = `${firstName} ${lastName}`;
 
