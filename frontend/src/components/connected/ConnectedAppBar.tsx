@@ -63,7 +63,7 @@ const ConnectedAppBar = () => {
                     .then(() => {
                         setLogoutSuccess(true);
                         dispatch(clearUser());
-                        navigate('login');
+                        navigate('/login');
                     })
                     .catch(() => setLogoutSuccess(false));
             }
