@@ -45,7 +45,14 @@ python -m venv myenv
 pip install -r requirements.txt
 ```
 
-5. Run the Django server:
+5. Apply migrations: 
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+6. Run the Django server:
 
 ```bash
 python manage.py runserver
@@ -53,7 +60,7 @@ python manage.py runserver
 
 The API should now be accessible on `http://localhost:8000`.
 
-6. To load initial data, stop the server (if it's running) with CONTROL-C and run the following command:
+7. To load initial data, stop the server (if it's running) with CONTROL-C and run the following command:
 
 ```bash
 python manage.py load_products
@@ -61,7 +68,7 @@ python manage.py load_products
 
 This command populates the database with product data.
 
-7. Afterwards, you can restart the server:
+8. Afterwards, you can restart the server:
 
 ## Setting Up Front-End
 
