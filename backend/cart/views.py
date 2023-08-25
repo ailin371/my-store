@@ -58,7 +58,6 @@ def update_cart_item_quantity(request, item_id):
         try:
             cart_item = CartItem.objects.get(
                 pk=item_id, cartId__user=request.user)
-            print("HEREEEEEEEEEEEEEEEEE", cart_item)
             if request.method == 'PATCH':
                 new_quantity = request.data.get('quantity')
                 if new_quantity is not None and new_quantity > 0:

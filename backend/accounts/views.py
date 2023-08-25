@@ -48,8 +48,6 @@ class LogoutAPIView(APIView):
 @api_view(['GET'])
 def user_purchased_product(request, product_id):
     if request.user.is_authenticated:
-        print("HEREEEEEEEEEEE", PurchaseItem.objects.filter(
-            purchase__user=request.user))
         purchased = PurchaseItem.objects.filter(
             purchase__user=request.user, product_id=product_id).exists()
 
