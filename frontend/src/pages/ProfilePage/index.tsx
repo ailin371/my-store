@@ -46,7 +46,7 @@ const ProfilePage: React.FC = () => {
                             <Grid item xs={4}>
                                 {image && (
                                     <Avatar
-                                        src={`${BASE_URL}/${image}`}
+                                        src={`${BASE_URL}${image}`}
                                         alt="Profile"
                                         sx={{ width: 150, height: 150, margin: 'auto', marginTop: 2 }} />
                                 )}

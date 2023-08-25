@@ -214,7 +214,7 @@ const ConnectedAppBar = () => {
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt={fullName} src={`${BASE_URL}/${image}`} />
+                                        <Avatar alt={fullName} src={`${BASE_URL}${image}`} />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
