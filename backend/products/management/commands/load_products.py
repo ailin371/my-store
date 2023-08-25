@@ -97,7 +97,7 @@ PRODUCTS = [
         "price": 80.00,
         "imageUrl": "https://s3.amazonaws.com/www.irunfar.com/wp-content/uploads/2023/01/13204819/best-trail-running-shoe-brands-Nike-Kiger-8.jpg",
         "category": "Footwear",
-        "stock": 60,
+        "stock": 0,
         "createdAt": "2023-04-01T00:00:00.000Z",
         "updatedAt": "2023-04-10T00:00:00.000Z"
     },
@@ -108,7 +108,7 @@ PRODUCTS = [
         "price": 70.00,
         "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/gh-index-backpacks-067-web-preview-1660836912.jpg",
         "category": "Accessories",
-        "stock": 90,
+        "stock": 3,
         "createdAt": "2023-04-05T00:00:00.000Z",
         "updatedAt": "2023-04-15T00:00:00.000Z"
     }
