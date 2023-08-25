@@ -83,7 +83,7 @@ const ConnectedCart: React.FC = () => {
                 borderTop: '1px solid #ddd'
             }}>
                 <Typography variant="h6" sx={{ mr: 2 }}>Total: ${totalPrice}</Typography>
-                <Button variant="contained" color="primary" onClick={handleCheckout}>
+                <Button disabled={cartItems.length === 0} variant="contained" color="primary" onClick={handleCheckout}>
                     <ShoppingCartCheckoutOutlinedIcon sx={{ mr: 1 }} />
                     Checkout
                 </Button>
